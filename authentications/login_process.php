@@ -1,15 +1,35 @@
 <?php
 session_start();
-require '../config/db.php'; 
+include("db.php");
 
-if ($user_is_valid) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $_SESSION['user_id'] = $user['id'];  
-    $_SESSION['username'] = $username;   
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    header("Location: ../dashboard.php"); 
-    exit();
-} else {
-    echo "Invalid login credentials";
+    // Prepare statement (prevents SQL injection)
+    $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+
+        // Verify hashed password
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            echo "Login successful!";
+            // header("Location: dashboard.php"); // optional redirect
+        } else {
+            echo "Invalid password!";
+        }
+    } else {
+        echo "User not found!";
+    }
+
+    $stmt->close();
+    $conn->close();
 }
 ?>
