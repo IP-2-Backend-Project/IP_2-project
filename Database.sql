@@ -19,3 +19,27 @@ CREATE TABLE applications (
     applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+
+-- 4. Uploads Table (NEW - Handles file uploads)
+CREATE TABLE uploads (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_id INT NOT NULL,
+    application_id INT,
+
+    file_name VARCHAR(255) NOT NULL,
+    file_path VARCHAR(255) NOT NULL,
+    file_type VARCHAR(50),
+    file_size INT,
+
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (application_id)
+        REFERENCES applications(id)
+        ON DELETE CASCADE
+);
