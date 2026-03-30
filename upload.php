@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require "db.php";
+require "config/db.php";
 
 /* 1) Check login */
 
