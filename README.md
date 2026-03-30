@@ -1,4 +1,4 @@
-# Company Application Accepter - Phase 1 (Backend)
+# Company Application Accepter 
 
 ### 👥 Team Members
 | Name | ID | GitHub Username |
