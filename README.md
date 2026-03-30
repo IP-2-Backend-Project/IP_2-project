@@ -5,7 +5,7 @@
 | :--- | :--- | :--- |
 | Sosina Girmay | ETS1311/16 | [@Sosina47](https://github.com/Sosina47) |
 | Soliyana Wasyihun | ETS1304/16 | [@19souly97](https://github.com/19souly97) |
-| Shegitu Shukeri | ETS1277/16 | [@Shegitu](https://github.com/Shegitu) |
+| Shegitu Shukuri | ETS1277/16 | [@Shegitu](https://github.com/Shegitu) |
 | Sifen Tesfaye | ETS1282/16 | [@Sifen-tesfaye](https://github.com/Sifen-tesfaye) |
 | Semehal Hailu | ETS1266/16 | [@semehal62](https://github.com/semehal62) |
 
