@@ -1,10 +1,32 @@
 <?php
-session_start();
+
+$host = "localhost";
+$dbname = "ip_project";
+$username = "root";
+$password = "";
 
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=company_db", "root", "");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$dbname",
+        $username,
+        $password
+    );
+
+    $pdo->setAttribute(
+        PDO::ATTR_ERRMODE,
+        PDO::ERRMODE_EXCEPTION
+    );
+
 } catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+
+    echo json_encode([
+        "status" => "error",
+        "message" => "Database connection failed"
+    ]);
+
+    exit();
+
 }
+
 ?>
