@@ -4,6 +4,13 @@ require '../../config/db.php';
 header("Content-Type: application/json");
 
 $data = json_decode(file_get_contents("php://input"), true);
+if (!$data) {
+    echo json_encode([
+        "status" => "error",
+        "message" => "No input data received"
+    ]);
+    exit();
+}
 
 $fullname = trim($data['fullname']);
 $email = trim($data['email']);
