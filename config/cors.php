@@ -18,7 +18,7 @@ session_set_cookie_params([
 session_start();
 
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=company_db", "root", "");
+    $pdo = new PDO("mysql:host=localhost;dbname=ip_project", "root", "");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("DB Error: " . $e->getMessage());
