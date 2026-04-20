@@ -38,5 +38,5 @@ $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 $stmt = $pdo->prepare("INSERT INTO users (fullname, email, password, phone, role) VALUES (?, ?, ?, ?, ?)");
 $stmt->execute([$fullname, $email, $hashedPassword, $phone, "applicant"]);
 
-echo json_encode(["message" => "Registration successful"]);
+echo json_encode(["message" => " Congra, Registration successful"]);
 ?>
