@@ -49,8 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$filePath]);
 
-            echo "File uploaded successfully";
-
+            echo json_encode([
+    "status" => "success",
+    "message" => "File uploaded successfully"
+]);
         } else {
             echo "File upload failed";
         }
