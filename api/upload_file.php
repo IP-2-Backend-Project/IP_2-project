@@ -14,8 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fileError = $file["error"];
 
         $uploadDir = "../uploads/";
-
-        // file type validation 
+        
         $allowedTypes = ["pdf", "doc", "docx", "jpg", "png"];
 
         $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
@@ -25,7 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
-        // file size validation 
         $maxSize = 2 * 1024 * 1024; // 2MB
 
         if ($fileSize > $maxSize) {
