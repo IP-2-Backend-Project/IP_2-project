@@ -1,16 +1,19 @@
--- 1. Create the Database
-CREATE DATABASE company_db;
-USE company_db;
 
--- 2. Users Table (For Login)
+CREATE DATABASE IF NOT EXISTS IP-Project;
+USE IP-Project;
+
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
     username VARCHAR(50) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'applicant') DEFAULT 'applicant'
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL, -- Stores the hashed version
+    role ENUM('admin', 'recruiter', 'applicant') DEFAULT 'applicant',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3. Applications Table (To track who is accepted)
+
 CREATE TABLE applications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -21,25 +24,13 @@ CREATE TABLE applications (
 );
 
 
--- 4. Uploads Table (NEW - Handles file uploads)
 CREATE TABLE uploads (
     id INT AUTO_INCREMENT PRIMARY KEY,
-
     user_id INT NOT NULL,
-    application_id INT,
-
     file_name VARCHAR(255) NOT NULL,
     file_path VARCHAR(255) NOT NULL,
     file_type VARCHAR(50),
     file_size INT,
-
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (user_id)
-        REFERENCES users(id)
-        ON DELETE CASCADE,
-
-    FOREIGN KEY (application_id)
-        REFERENCES applications(id)
-        ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
