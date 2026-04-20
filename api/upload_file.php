@@ -14,10 +14,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fileError = $file["error"];
 
         $uploadDir = "../uploads/";
-        $filePath = $uploadDir . basename($fileName);
+
+        // file type validation 
+        $allowedTypes = ["pdf", "doc", "docx", "jpg", "png"];
+
+        $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+        if (!in_array($fileExt, $allowedTypes)) {
+            echo "Invalid file type!";
+            exit();
+        }
+
+        // file size validation 
+        $maxSize = 2 * 1024 * 1024; // 2MB
+
+        if ($fileSize > $maxSize) {
+            echo "File is too large!";
+            exit();
+        }
+
+        // check if there is error while uploading
+        if ($fileError !== 0) {
+            echo "Error uploading file!";
+            exit();
+        }
+
+        $newFileName = uniqid("", true) . "." . $fileExt;
+
+        $filePath = $uploadDir . $newFileName;
 
         if (move_uploaded_file($fileTmpName, $filePath)) {
 
+            // save the file path to the database
             $sql = "INSERT INTO uploads (file_path) VALUES (?)";
 
             $stmt = $pdo->prepare($sql);
