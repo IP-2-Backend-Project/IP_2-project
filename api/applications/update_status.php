@@ -7,9 +7,11 @@ if (!isset($_SESSION["user_id"])) {
     exit();
 }
 
-if ($_SESSION["role"] != "Recruiter") {
-
-    echo "Access denied!";
+if ($_SESSION["role"] !== "admin") {
+    echo json_encode([
+        "status" => "error",
+        "message" => "Access denied"
+    ]);
     exit();
 }
 

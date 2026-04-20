@@ -1,38 +1,42 @@
 <?php
 
+require_once "../../config/cors.php";
+require_once "../../config/db.php";
+
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
 
-require_once "../config/db.php";
+$data = json_decode(file_get_contents("php://input"), true);
 
-$data = json_decode(
-    file_get_contents("php://input")
-);
+if (!$data) {
+    echo json_encode([
+        "status" => "error",
+        "message" => "Invalid input"
+    ]);
+    exit();
+}
 
-$email = $data->email;
-$password = $data->password;
+$email = trim($data['email']);
+$password = $data['password'];
 
 try {
 
-    $sql = "SELECT *
-            FROM users
-            WHERE email = :email
-            AND password = :password";
-
-    $stmt = $pdo->prepare($sql);
-
-    $stmt->execute([
-        ":email" => $email,
-        ":password" => $password
-    ]);
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user) {
+    if ($user && password_verify($password, $user['password'])) {
+
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['role'] = $user['role'];
 
         echo json_encode([
             "status" => "success",
-            "user" => $user
+            "data" => [
+                "id" => $user['id'],
+                "email" => $user['email'],
+                "role" => $user['role']
+            ]
         ]);
 
     } else {
@@ -41,7 +45,6 @@ try {
             "status" => "error",
             "message" => "Invalid email or password"
         ]);
-
     }
 
 } catch (PDOException $e) {
@@ -50,7 +53,4 @@ try {
         "status" => "error",
         "message" => "Login failed"
     ]);
-
 }
-
-?>
