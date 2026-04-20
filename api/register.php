@@ -1,45 +1,42 @@
 <?php
+require '../config/db.php';
 
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
 
-require_once "../config/db.php";
+$data = json_decode(file_get_contents("php://input"), true);
 
-$data = json_decode(
-    file_get_contents("php://input")
-);
+$fullname = trim($data['fullname']);
+$email = trim($data['email']);
+$password = $data['password'];
+$phone = trim($data['phone']);
 
-$name = $data->name;
-$email = $data->email;
-$password = $data->password;
-
-try {
-
-    $sql = "INSERT INTO users
-            (name, email, password)
-            VALUES
-            (:name, :email, :password)";
-
-    $stmt = $pdo->prepare($sql);
-
-    $stmt->execute([
-        ":name" => $name,
-        ":email" => $email,
-        ":password" => $password
-    ]);
-
-    echo json_encode([
-        "status" => "success",
-        "message" => "User registered successfully"
-    ]);
-
-} catch (PDOException $e) {
-
-    echo json_encode([
-        "status" => "error",
-        "message" => "Registration failed"
-    ]);
-
+if (empty($fullname) || empty($email) || empty($password) || empty($phone)) {
+    echo json_encode(["message" => "All fields are required"]);
+    exit();
 }
 
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(["message" => "Invalid email"]);
+    exit();
+}
+
+if (strlen($password) < 6) {
+    echo json_encode(["message" => "Password must be at least 6 characters"]);
+    exit();
+}
+
+$stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+$stmt->execute([$email]);
+
+if ($stmt->fetch()) {
+    echo json_encode(["message" => "Email already exists"]);
+    exit();
+}
+
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+$stmt = $pdo->prepare("INSERT INTO users (fullname, email, password, phone, role) VALUES (?, ?, ?, ?, ?)");
+$stmt->execute([$fullname, $email, $hashedPassword, $phone, "applicant"]);
+
+echo json_encode(["message" => "Registration successful"]);
 ?>
