@@ -13,6 +13,34 @@ if ($_SESSION["role"] != "Recruiter") {
     exit();
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["application_id"]) && isset($_POST["status"])) {
+
+        $application_id = $_POST["application_id"];
+        $status = $_POST["status"];
+
+        $allowed_status = ["Pending", "Accepted", "Rejected"];
+
+        if (!in_array($status, $allowed_status)) {
+            echo "Invalid status value";
+            exit();
+        }
+
+        $sql = "UPDATE applications
+                SET status = ?
+                WHERE id = ?";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$status, $application_id]);
+
+        echo "Status updated successfully";
+
+    } else {
+        echo "invalid application or status";
+    }
+
+}
+
 
 ?>
 
