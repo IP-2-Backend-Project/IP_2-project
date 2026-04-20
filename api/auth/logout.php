@@ -1,6 +1,10 @@
 <?php
-session_start();
+
+require_once "../../config/cors.php";
+
 session_destroy();
-header("Location: login.php");
-exit();
-?>
+
+echo json_encode([
+    "status" => "success",
+    "message" => "Logged out"
+]);  ?>
