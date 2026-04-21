@@ -42,6 +42,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
+        $fileType = mime_content_type($fileTmpName);
+
+        $allowedMime = [
+            "application/pdf",
+            "image/jpeg",
+            "image/png",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ];
+
+        if (!in_array($fileType, $allowedMime)) {
+            echo "Invalid file content!";
+            exit();
+        }
+
         $newFileName = uniqid("", true) . "." . $fileExt;
 
         $filePath = $uploadDir . $newFileName;
