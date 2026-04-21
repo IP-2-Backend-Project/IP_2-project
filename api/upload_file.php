@@ -2,6 +2,11 @@
 session_start();
 require_once '../config/db.php';
 
+if (!isset($_SESSION["user_id"])) {
+    echo "User not logged in";
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_FILES["file"])) {
