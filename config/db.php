@@ -1,7 +1,7 @@
 <?php
 // Configuration 
 $host    = "localhost";
-$db      = "company_db";
+$db      = "ip_project";
 $user    = "root";
 $pass    = "";
 $charset = "utf8mb4";
