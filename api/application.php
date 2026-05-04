@@ -16,4 +16,4 @@ $stmt = $pdo->prepare(
      ORDER BY a.created_at DESC"
 );
 $stmt->execute([$_SESSION['user_id']]);
-echo json_encode($stmt->fetchAll(PDO::
+echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
