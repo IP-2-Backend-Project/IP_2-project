@@ -1,4 +1,4 @@
-import API_BASE_URL from "../api";
+import API_BASE_URL from "../../api";
 import { useState } from "react";
 import { Mail, Lock, Eye, EyeOff, User, Briefcase } from "lucide-react";
 
