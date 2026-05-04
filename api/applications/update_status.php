@@ -21,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $application_id = $_POST["application_id"];
         $status = $_POST["status"];
-
-        $allowed_status = ["Pending", "Accepted", "Rejected"];
+        
+        $allowed_status = ["pending", "accepted", "rejected"];
 
         if (!in_array($status, $allowed_status)) {
             echo "Invalid status value";
