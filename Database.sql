@@ -1,6 +1,6 @@
 
-CREATE DATABASE IF NOT EXISTS 'IP2-Project';
-USE 'IP2-Project';
+CREATE DATABASE IF NOT EXISTS ip_project;
+USE ip_project;
 
 
 CREATE TABLE users (
